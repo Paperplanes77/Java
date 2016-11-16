@@ -1,6 +1,6 @@
-package com.java.question2;
+package com.java.getDataFromFile;
 
- 
+import java.awt.List;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -17,28 +17,23 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 
-public class Method {
-	//改为普通方法 等会反射调用
-	public static void  method(int m,int n) throws IOException {
+public class ExamTest {
+
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		File file=new File("D:"+File.separator+"configruation.txt");
 		//初始化配置文件
 		config(file);
-		
+		//解析获得需要的数据
+		int[] arr=getData(file);
 		//对数据进行处理
-		/*Scanner scanner=new Scanner(System.in);
-		System.out.println("请输入被除数:");
-		int m=scanner.nextInt();
-		System.out.println("请输入除数:");//在这里不是在debug模式下键盘录入！
-		int n=scanner.nextInt();*/
-		//处理数据
-		math(m,n,file);
+		math(arr[0],arr[1],file);
 		//解题思路
-		String answer="1 调用config(file)方法配置文件 \r\n"+"2通过math(srcData[0],srcData[1],file)方法求出满足条件的数据并追加进文件!\r\n"+"3通过deal()方法向文件追加解题思路，最后通过show()方法在控制台打印!\r\n";
+		String answer="1 调用config(file)方法配置文件 \r\n"+"2通过getData(file)方法获得设置数据源,向配置文件追加数据说明,并告知退出配置文件.并同时返回一个数组的int数组!\r\n"
+		+"3通过math(srcData[0],srcData[1],file)方法求出满足条件的数据并追加进文件!\r\n"+"4通过deal()方法向文件追加解题思路，最后通过show()方法在控制台打印!\r\n";
 		//向文件中追加解题思路
 		deal(answer,file);
 		//在控制台打印输出一切
@@ -76,7 +71,7 @@ public class Method {
 		// TODO Auto-generated method stub
 		
 		//定义一个list容器
-		List<Integer> list=new LinkedList<Integer>();
+		LinkedList<Integer> list=new LinkedList<Integer>();
 		//文件写入流 设置为可追加   编码方式为utf-8
 		OutputStream os=new FileOutputStream(file,true);
 		OutputStreamWriter wt=new OutputStreamWriter(os,"UTF-8");
@@ -86,13 +81,13 @@ public class Method {
 			return 0;
 		}
 		//把满足条件的数据加到list集合中去
-		for(int m=0;m<=i;m++){
+		for(int m=0;m<i;m++){
 			if (m%j==0) {
 				list.add(m);
 			}
 		}
 		//对数组进行排序
-		//Collections.sort(list);并不需要排序，list本身有序不需要
+		Collections.sort(list);
 		wt.write("满足条件的数据为:"+"\r\n");
 		for (Integer integer : list) {
 			wt.write(integer+"    ");
@@ -100,30 +95,69 @@ public class Method {
 		//求得最大最小值 和它们的平均值
 		int max=Collections.max(list);
 		int min=Collections.min(list);
+		int average=(max+min)/2;
 		//对数组进行求和
 		int sum=0;
 		for (Integer integer : list) {
 			sum+=integer;
 		}
-		wt.write("满足条件的数据的最大值是"+max+"   最小值是"+min+"   平均值是"+sum/list.size()+"   所有数据之和是"+sum+"\r\n");
+		wt.write("满足条件的数据的最大值是"+max+"   最小值是"+min+"   平均值是"+average+"   所有数据之和是"+sum+"\r\n");
 		//关闭流
 		wt.flush();
 		wt.close();
 		return 1;
 	}
-	//向配置文件配置
+	//通过解析获得数据源并同时完成配置问价的追加
+	public static int[] getData(File file) throws IOException {
+		// TODO Auto-generated method stub
+		//高效读取流
+		Reader is=new FileReader(file);
+		BufferedReader br=new BufferedReader(is);
+		//文件写入流 设置为可追加   编码方式为utf-8
+		OutputStream os=new FileOutputStream(file,true);
+		OutputStreamWriter wt=new OutputStreamWriter(os,"UTF-8");
+		//定义一个tmp字符创接受包含目标数据的字符串 
+		String tmp=null;
+		String string=br.readLine();
+		while (string!=null) {
+			if (string.contains("#")) {
+				tmp=string;
+				break;
+			}
+			string=br.readLine();
+		}
+		//对字符串数据进行处理获得数据
+		int index=tmp.lastIndexOf(":");
+		String data=tmp.substring(index+1);
+		String[] str=data.split("#");
+		int m=Integer.parseInt(str[0]);
+		//去处手尾的空格和符号
+		String string2=str[1].trim();
+		int n=Integer.parseInt(string2);
+		//用数组接受下数据
+		int[] arr={m,n};
+		//追加文件说明
+		wt.write("当前行中，有需要的参数，参数为:"+m+"   "+n+"\r\n");
+		wt.write("不再读取当前文件，读取配置文件的方法退出!\r\n");
+		wt.flush();
+		wt.close();
+		return arr;
+	}
+	//向配置文件录入数据并同时完成部分文件的配置
 	public static void config(File file) throws IOException {
 		// TODO Auto-generated method stub
 		//文件写入流 设置为可追加   编码方式为utf-8
 		OutputStream os=new FileOutputStream(file,true);
 		OutputStreamWriter wt=new OutputStreamWriter(os,"UTF-8");
 		//键盘输入数据
-		/*Scanner sc=new Scanner(System.in);
+		Scanner sc=new Scanner(System.in);
 		int m=sc.nextInt();
-		int n=sc.nextInt();*/ //这里并不需要录入数据
+		int n=sc.nextInt();
 		//向文件追加数据
 		wt.write("读取当前行的内容是:这是一个java上机题的文档文件:\r\n");
+		wt.write("读取当前行的内容是:在"+m+"范围内有多少数整除与"+n+"求出满足条件的所有数据的和,并同时求出最大值与最小值和它们的平均值？\r\n");
 		wt.write("读取当前行的内容是:需要的参数如下：通过解析下面的字母串得到需要的参数值\r\n");
+		wt.write("读取当前行的内容是:"+m+"#"+n+"\r\n");
 		//刷新关闭流
 		wt.flush();
 		wt.close();

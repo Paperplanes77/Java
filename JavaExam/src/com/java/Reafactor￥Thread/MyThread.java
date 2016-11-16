@@ -1,4 +1,4 @@
-package com.java.question2;
+package com.java.Reafactor￥Thread;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -23,18 +23,15 @@ public class MyThread extends Thread{
 			e.printStackTrace();
 		}
 		//获取构造方法
-		Constructor<?> c=null;
+		Constructor<?>[] c=null;
 		try {
-			c = class1.getConstructor();
-		} catch (NoSuchMethodException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			c = class1.getConstructors();
 		} catch (SecurityException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
-			Object obj=c.newInstance();
+			Object obj=c[0].newInstance(false);
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
