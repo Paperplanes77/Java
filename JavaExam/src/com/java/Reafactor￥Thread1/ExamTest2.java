@@ -1,4 +1,4 @@
-package com.java.Reafactor￥Thread;
+package com.java.Reafactor￥Thread1;
 
 import java.util.List;
 
@@ -9,8 +9,6 @@ public class ExamTest2{
 		//创建一个线程并启动
 		MyThread mt=new MyThread();
 		mt.start();
-		
-		
 		
 	}
 }

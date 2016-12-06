@@ -1,4 +1,4 @@
-package com.java.Reafactor￥Thread;
+package com.java.Reafactor￥Thread1;
 
  
 import java.io.BufferedInputStream;

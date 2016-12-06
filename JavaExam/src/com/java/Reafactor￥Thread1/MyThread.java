@@ -1,4 +1,4 @@
-package com.java.Reafactor￥Thread;
+package com.java.Reafactor￥Thread1;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -17,7 +17,7 @@ public class MyThread extends Thread{
 		int n=scanner.nextInt();
 		Class<?> class1=null;
 		try {
-			class1 = Class.forName("com.java.question2.Method");
+			class1 = Class.forName("com.java.Reafactor￥Thread1.Method");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
