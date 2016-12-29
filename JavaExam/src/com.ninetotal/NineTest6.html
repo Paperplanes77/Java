@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>奇怪的东西</title>
+<script src="../Js/jquery.min.js"  type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../css/my.css"></link>
+</head>
+<body bgcolor="lightpink" align="center"> 
+<p align="center" style="color: red">九九乘法表</p>
+<hr/>
+<input id="button1" type="button" value="打印乘法表" onclick="prt()"/>
+<input id="button2" type="button" value="统计" onclick="show()"/>
+<input id="button3" type="button" value="样式" onclick="sty()"/>
+<script type="text/javascript">
+		//定义一个变量让它点击无法在读入
+		var flag=true;
+			 //定义一个变量接受行的和
+		function prt() {
+			//cellspacing cellpadding  单元格间距0  间距粗细 cellspacing=\"0\" cellpadding=\"3\"
+			 var str="<center><table id=\"mytab\" border=\"1\" ></center>";
+			 //控制全局的总和
+			 var Sum=0;
+			 for (var i=0; i <=10; i++) {
+				 	//防止页面跳转  写进去str再追加到body里面去
+					str+="<tr class='row'>";
+					//控制行的数据和
+					var rowSum=0;
+					for (var j = 0; j <=10; j++) {
+						//var cowSum=0;
+						//求每列的和
+						//只打印9行9列的 !=0 !10是为了让第一列或者第10行不计算
+						if(j!=0&&i!=10&&j<=i&&1<=j<=9&&1<=i<=9){
+						str+="<td class='cow'>"+i+"*"+j+"="+(j*i)+"\r\t"+"</td>";
+						Sum+=j*i;
+						rowSum+=j*i;
+						//所有数据的总和
+						}else if(i==10&&j==10){
+							str+="<td class='see' style='display:none'>"+Sum+"</td>";	
+						//所有行的数据总和 i!=0是不计算
+						}else if(j==10&&i!=0){
+							str+="<td class='see' style='display:none'>"+rowSum+"</td>"; 
+						//所有列数据和  不让第一列和求和和最后一列求和
+						}else if(i==10&&j!=0){
+							var cowSum=0;
+							for(x=j;x<10;x++){
+								cowSum+=x*j;
+							}
+							str+="<td class='see' style='display:none'>"+cowSum+"</td>";	
+						}else if ((i==10&&j==0)||(i==0&&j==10)){
+							//书写统计的位置
+							str+="<td class='see' style='display:none'>"+"统计"+"</td>";
+						}else if (i==0||j==0) {
+							//让空白包围的外层行列 先影藏
+							str+="<td class='see' style='display:none'>"+"&nbsp;"+"</td>";
+						}else{
+							str+="<td>"+"&nbsp;"+"</td>";
+						}
+					}
+					str+="</tr>";
+				}
+				str+="</table>";
+				//$('body').append(str);不在追加数据
+				if (flag) {
+					$('body').append(str);
+					flag=false;
+				}
+			 }
+	 function show(){
+		 $('.see').toggle();
+	 }
+	 function sty() {
+		//$('#mytab').css({'color','yellow'}{'font-size','50px'});这种方式不行
+		/* $('#mytab').css({width:'80px',
+						height:'25px',
+						color:'red',
+						border:'1px solid black',
+						margin:'0 auto'
+		}); */
+		 $('#mytab').css('color','red').css('font-size','25px').css('text-align','center').css('background','lightblue').css('border','1px solid black').css('border-collapse','collapse');//.css('border-collapse','collapse')
+		 //将表格边框颜色加粗3px
+		 $('td').css('border','3px solid black');
+		//$('#mytab','tr').css('border','1px solid');
+	}
+</script>
+</body>
+</html>
